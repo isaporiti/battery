@@ -1,0 +1,2 @@
+Now drawing from 'Battery Power'
+ -InternalBattery-0 (id=00000000)	40%; discharging; 5:40 remaining present: true
