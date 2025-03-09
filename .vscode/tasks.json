@@ -8,6 +8,12 @@
             "group": "build"
         },
         {
+            "label": "debug",
+            "type": "shell",
+            "command": "odin run ./cmd/battery/main.odin -file -out=build/battery -debug",
+            "group": "build"
+        },
+        {
             "label": "build",
             "type": "shell",
             "command": "odin build ./cmd/battery/main.odin -file -out=build/battery",
