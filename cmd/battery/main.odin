@@ -4,6 +4,7 @@ import battery "../../."
 import "core:fmt"
 import "core:mem"
 import "core:os"
+import "core:flags"
 
 main :: proc() {
 	when ODIN_DEBUG {
@@ -26,11 +27,16 @@ main :: proc() {
 			mem.tracking_allocator_destroy(&track)
 		}
 	}
-
+	config: battery.Config
+	flags.parse_or_exit(&config, os.args)
 	status, err := battery.run()
 	if err != nil {
 		fmt.eprintfln("couln't read battery status: %s", err)
 		os.exit(1)
+	}
+	if config.minimal {
+		fmt.println(status.ChargePercent)
+		return
 	}
 	fmt.printfln("Battery %d%% charged.", status.ChargePercent)
 }

@@ -18,6 +18,10 @@ run :: proc() -> (Status, Error) {
 	return status, nil
 }
 
+Config :: struct {
+	minimal: bool `args:"name=minimal" usage:"Return the current battery percentage only."`,
+}
+
 Status :: struct {
 	ChargePercent: int,
 }
