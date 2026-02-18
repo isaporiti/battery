@@ -1,3 +1,4 @@
 build
 *.bin
 *.dSYM
+debug_build
