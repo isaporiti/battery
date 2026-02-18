@@ -1,6 +1,5 @@
 package battery
 
-import "core:fmt"
 import "core:os/os2"
 import "core:strconv"
 import "core:text/regex"
@@ -51,17 +50,18 @@ get_pmset_output :: proc() -> (string, Error) {
 
 @(private)
 parse_pmset_output :: proc(data: string) -> (Status, Error) {
-	charge_regex, err := regex.create("([0-9]+)%", {.Global})
+	charge_regex, err := regex.create("([0-9]+)%", {})
 	if err != nil {
 		return Status{}, err
 	}
 	defer regex.destroy(charge_regex)
 
-	capture, ok := regex.match_and_allocate_capture(charge_regex, data)
-	if !ok {
+	capture, capture_ok := regex.match_and_allocate_capture(charge_regex, data)
+	if !capture_ok {
 		return Status{}, .NoMatchError
 	}
 	defer regex.destroy(capture)
 
-	return Status{ChargePercent = strconv.atoi(capture.groups[0])}, nil
+	charge_percent, _ := strconv.parse_int(capture.groups[0]) // ok was false in cases it should not
+	return Status{ChargePercent = charge_percent}, nil
 }
