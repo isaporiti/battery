@@ -9,11 +9,12 @@ run :: proc() -> (Status, Error) {
 	if out_err != nil {
 		return Status{}, out_err
 	}
-	defer delete(out)
+
 	status, parse_err := parse_pmset_output(out)
 	if parse_err != nil {
 		return Status{}, parse_err
 	}
+
 	return status, nil
 }
 
@@ -54,13 +55,11 @@ parse_pmset_output :: proc(data: string) -> (Status, Error) {
 	if err != nil {
 		return Status{}, err
 	}
-	defer regex.destroy(charge_regex)
 
 	capture, capture_ok := regex.match_and_allocate_capture(charge_regex, data)
 	if !capture_ok {
 		return Status{}, .NoMatchError
 	}
-	defer regex.destroy(capture)
 
 	charge_percent, parse_ok := strconv.parse_int(capture.groups[1])
 	if !parse_ok {
