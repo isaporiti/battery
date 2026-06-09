@@ -1,6 +1,6 @@
 package battery
 
-import "core:os/os2"
+import "core:os"
 import "core:strconv"
 import "core:text/regex"
 
@@ -26,7 +26,7 @@ Status :: struct {
 }
 
 Error :: union #shared_nil {
-	os2.Error,
+	os.Error,
 	regex.Error,
 	CustomRegexError,
 }
@@ -37,8 +37,8 @@ CustomRegexError :: enum {
 
 @(private)
 get_pmset_output :: proc() -> (string, Error) {
-	_, stdout, _, err := os2.process_exec(
-		os2.Process_Desc{command = []string{"/usr/bin/pmset", "-g", "ps"}},
+	_, stdout, _, err := os.process_exec(
+		os.Process_Desc{command = []string{"/usr/bin/pmset", "-g", "ps"}},
 		context.allocator,
 	)
 	if err != nil {
