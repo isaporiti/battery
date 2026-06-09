@@ -1,0 +1,4 @@
+[
+  { "label": "Odin Test", "command": "odin test ." },
+  { "label": "Odin Run", "command": "odin run cmd/battery" },
+]
