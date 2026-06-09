@@ -62,6 +62,9 @@ parse_pmset_output :: proc(data: string) -> (Status, Error) {
 	}
 	defer regex.destroy(capture)
 
-	charge_percent, _ := strconv.parse_int(capture.groups[0]) // ok was false in cases it should not
+	charge_percent, parse_ok := strconv.parse_int(capture.groups[1])
+	if !parse_ok {
+		return Status{}, .NoMatchError
+	}
 	return Status{ChargePercent = charge_percent}, nil
 }
